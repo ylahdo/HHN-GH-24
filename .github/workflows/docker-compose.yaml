@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  assessment-service:
+    image: mrksdh/assessment
+    container_name: assessment-service
+    ports:
+      - "8080:8080"  # Mappe den Port 8080 des Containers auf den Host
+    networks:
+      - myNetwork
+
+  java-app:
+    build: .  # Stelle sicher, dass es ein Dockerfile im aktuellen Verzeichnis gibt
+    container_name: java-app
+    depends_on:
+      - assessment-service  # Warte auf assessment-service
+    networks:
+      - myNetwork  # Verwende dasselbe Netzwerk, um Zugriff zu haben
+
+networks:
+  myNetwork:
+    driver: bridge
